@@ -1,0 +1,7 @@
+type Mutation {
+  updateItem(args: CreateOrUpdateItemInput!, itemId: ID!): Item
+    @auth(requires: USER)
+  addItemToLuggage(args: CreateOrUpdateItemInput!, luggageId: ID!): Item
+    @auth(requires: USER)
+  removeItemFromLuggage(itemId: ID!): Boolean! @auth(requires: USER)
+}

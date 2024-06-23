@@ -14,7 +14,9 @@ import {
   timestamps: false,
 })
 export class Luggage extends Model {
-  @HasMany(() => Item)
+  @HasMany(() => Item, {
+    onDelete: "CASCADE",
+  })
   items!: Item[]
 
   @ForeignKey(() => Trip)

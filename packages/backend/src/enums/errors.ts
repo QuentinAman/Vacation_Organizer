@@ -19,4 +19,7 @@ export enum Error {
 
   //LUGGAGES
   LUGGAGE_NOT_FOUND = "LUGGAGE_NOT_FOUND",
+
+  //ROLES
+  ROLE_NOT_FOUND = "ROLE_NOT_FOUND",
 }

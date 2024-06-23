@@ -1,5 +1,5 @@
 import type { Context } from "@context"
-import { UserTrip } from "@models"
+import { Trip, UserTrip } from "@models"
 import { GraphQLError } from "graphql"
 import { Error } from "@enums"
 import { tripController } from "@controllers"
@@ -65,5 +65,34 @@ export class UserTripController {
     }
 
     return UserTrip.destroy({ where: { tripId } })
+  }
+
+  async deleteUserTripsByUserId(
+    userId: string,
+    context: Context
+  ): Promise<boolean> {
+    const userTrips = await context.dataSources.userTrips.getByUserId(userId, {
+      include: [
+        {
+          model: Trip,
+          include: [
+            {
+              model: UserTrip,
+            },
+          ],
+        },
+      ],
+    })
+
+    await Promise.all([
+      ...userTrips
+        .filter((userTrip) => userTrip.trip.userTrips.length <= 1)
+        .map((userTrip) =>
+          tripController.deleteTrip(userTrip.trip.id, context)
+        ),
+    ])
+    await Promise.all([...userTrips.map((userTrip) => userTrip.destroy())])
+
+    return true
   }
 }

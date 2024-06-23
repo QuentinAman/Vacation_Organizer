@@ -8,6 +8,7 @@ import {
   ForeignKey,
   AllowNull,
   Default,
+
 } from "sequelize-typescript"
 
 @Table({
@@ -22,16 +23,15 @@ export class Item extends Model {
   @Column(DataType.INTEGER)
   luggageId!: number
 
-  @AllowNull(true)
+  @AllowNull(false)
   @Column(DataType.STRING)
   name!: string
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.INTEGER)
   quantity!: number
 
-  @AllowNull(false)
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  packed!: boolean
+  @Default(0)
+  @Column(DataType.INTEGER)
+  alreadyPacked!: number
 }

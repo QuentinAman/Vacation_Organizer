@@ -9,7 +9,7 @@ type Mutation {
   login(args: LoginInput!): User
   logout: Boolean @auth(requires: USER)
 
-  deleteUser(userId: ID!): Boolean @auth(requires: ADMIN)
+  deleteUser(userId: ID!): Boolean @auth(requires: USER)
 
   createUser(args: CreateUserInput!): User
   updateUser(args: UpdateUserInput, userId: ID!): User @auth(requires: USER)

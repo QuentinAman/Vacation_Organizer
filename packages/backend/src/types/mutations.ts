@@ -12,7 +12,7 @@ export interface LoginArgs {
 
 export interface UpdateUserArgs {
   firstName: string
-  lastname: string
+  lastName: string
   image: string
 }
 
@@ -22,12 +22,18 @@ export interface UpdatePasswordArgs {
 
 export interface CreateOrUpdateTripArgs {
   name: string
-  startDate: Date
-  endDate: Date
-  location: string
+  startDate?: Date
+  endDate?: Date
+  location?: string
 }
 
 export interface CreateOrUpdateLuggageArgs {
   name?: string
   tripId?: string
+}
+
+export interface CreateOrUpdateItemArgs {
+  name: string
+  quantity?: number
+  alreadyPacked?: number
 }

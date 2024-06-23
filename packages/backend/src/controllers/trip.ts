@@ -4,7 +4,7 @@ import { Trip } from "@models"
 import { GraphQLError } from "graphql"
 import { Error } from "@enums"
 import { userTripController } from "@controllers"
-import { checkIfUserUpdateItsTripOrIsAdmin } from "@helpers"
+import { checkIfUserIsUpdatingItsTripOrIsAdmin } from "@helpers"
 
 export class TripController {
   async createTrip(
@@ -44,7 +44,7 @@ export class TripController {
     tripId: string,
     context: Context
   ): Promise<Trip> {
-    const trip = await checkIfUserUpdateItsTripOrIsAdmin(tripId, context)
+    const trip = await checkIfUserIsUpdatingItsTripOrIsAdmin(tripId, context)
 
     return trip.update({
       ...args,
@@ -52,7 +52,11 @@ export class TripController {
   }
 
   async deleteTrip(tripId: string, context: Context): Promise<boolean> {
-    const trip = await checkIfUserUpdateItsTripOrIsAdmin(tripId, context)
+    const trip = await checkIfUserIsUpdatingItsTripOrIsAdmin(
+      tripId,
+      context,
+      true
+    )
 
     await userTripController.deleteUserTripsByTripId(tripId, context)
     await trip.destroy()
@@ -72,7 +76,7 @@ export class TripController {
   }
 
   async getUserTrip(id: string, context: Context): Promise<Trip> {
-    return checkIfUserUpdateItsTripOrIsAdmin(id, context, true)
+    return checkIfUserIsUpdatingItsTripOrIsAdmin(id, context, true)
   }
 
   async addUserToTrip(

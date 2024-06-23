@@ -30,7 +30,9 @@ export class Trip extends Model {
   @Column(DataType.STRING)
   image!: string
 
-  @HasMany(() => Luggage)
+  @HasMany(() => Luggage, {
+    onDelete: "CASCADE",
+  })
   luggages!: Luggage[]
 
   @HasMany(() => UserTrip)

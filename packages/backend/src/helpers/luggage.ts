@@ -1,9 +1,9 @@
 import type { Context } from "@context"
-import { Error } from "@enums"
+import { Error, Roles } from "@enums"
 import { GraphQLError } from "graphql"
 import { Luggage, Trip, UserTrip } from "@models"
 
-export const checkIfUserUpdateItsLuggageOrIsAdmin = async (
+export const checkIfUserIsUpdatingItsLuggageOrIsAdmin = async (
   luggageId: string,
   context: Context,
   disableCheck: boolean = false
@@ -28,7 +28,7 @@ export const checkIfUserUpdateItsLuggageOrIsAdmin = async (
     }
   )) as Luggage
 
-  if (!luggage && context.currentUser.role.name === "ADMIN") {
+  if (!luggage && context.currentUser.role.name !== Roles.ADMIN) {
     throw new GraphQLError(Error.UNAUTHORIZED)
   }
 

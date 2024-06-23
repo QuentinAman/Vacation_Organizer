@@ -1,7 +1,7 @@
 import type { Context } from "@context"
 import { MapperKind, mapSchema, getDirective } from "@graphql-tools/utils"
 import { GraphQLError, defaultFieldResolver, type GraphQLSchema } from "graphql"
-import { Error } from "@enums"
+import { Error, Roles } from "@enums"
 
 export function authDirective(
   directiveName: string,
@@ -56,9 +56,9 @@ export function authDirective(
 }
 
 export function getUser(token: string) {
-  const roles = ["USER", "ADMIN"]
+  const roles = [Roles.USER, Roles.ADMIN]
   return {
-    hasRole: (role: string) => {
+    hasRole: (role: Roles) => {
       const roleIndex = roles.indexOf(role)
       return roleIndex >= 0 && Number(token) >= roleIndex
     },

@@ -1,5 +1,5 @@
 type Mutation {
-  updateLuggage(args: CreateOrUpdateLuggageInput!, tripId: ID!): Luggage
+  updateLuggage(args: CreateOrUpdateLuggageInput!, luggageId: ID!): Luggage
     @auth(requires: USER)
   addLuggageToTrip(args: CreateOrUpdateLuggageInput!, tripId: ID!): Luggage
     @auth(requires: USER)

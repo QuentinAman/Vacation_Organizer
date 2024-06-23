@@ -6,10 +6,11 @@ import type {
   UpdateUserArgs,
 } from "@types"
 import { GraphQLError } from "graphql"
-import { Error } from "@enums"
-import { User } from "@models"
+import { Error, Roles } from "@enums"
+import { Role, User } from "@models"
 import { checkPassword, createJwtCookie, encryptPassword } from "@utils"
-import { checkIfUserUpdateItselfOrIsAdmin } from "@helpers"
+import { checkIfUserIsUpdatingItselfOrIsAdmin } from "@helpers"
+import { userTripController } from "@controllers"
 
 export class UserController {
   async createUser(args: CreateUserArgs, context: Context): Promise<User> {
@@ -20,11 +21,15 @@ export class UserController {
 
     if (isUserAlreadyInDb) throw new GraphQLError(Error.USER_ALREADY_EXISTS)
 
-    const encryptedPassword = await encryptPassword(args.password)
+    const [encryptedPassword, userRole] = await Promise.all([
+      encryptPassword(args.password),
+      context.dataSources.roles.getByName(Roles.USER),
+    ])
 
     const user = await User.create({
       ...args,
       password: encryptedPassword,
+      roleId: (userRole as Role).id,
     })
 
     createJwtCookie(user, context.res)
@@ -59,7 +64,7 @@ export class UserController {
     args: UpdateUserArgs,
     context: Context
   ): Promise<User> {
-    const user = await checkIfUserUpdateItselfOrIsAdmin(userId, context)
+    const user = await checkIfUserIsUpdatingItselfOrIsAdmin(userId, context)
 
     return user.update(args)
   }
@@ -69,7 +74,7 @@ export class UserController {
     args: UpdatePasswordArgs,
     context: Context
   ): Promise<User> {
-    const user = await checkIfUserUpdateItselfOrIsAdmin(userId, context)
+    const user = await checkIfUserIsUpdatingItselfOrIsAdmin(userId, context)
 
     const encryptedPassword = encryptPassword(args.password)
 
@@ -79,9 +84,14 @@ export class UserController {
   }
 
   async deleteUser(userId: string, context: Context): Promise<boolean> {
-    const user = await checkIfUserUpdateItselfOrIsAdmin(userId, context)
+    const user = await checkIfUserIsUpdatingItselfOrIsAdmin(userId, context)
 
+    await userTripController.deleteUserTripsByUserId(user.id, context)
     await user.destroy()
+
+    if (user.id === context.currentUser.id) {
+      context.res.clearCookie("sessionId")
+    }
 
     return true
   }

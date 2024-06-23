@@ -1,5 +1,7 @@
 import {
+  ItemsDataSource,
   LuggagesDataSource,
+  RolesDataSource,
   TripsDataSource,
   UserTripsDataSource,
   UsersDataSource,
@@ -15,9 +17,9 @@ export interface Context {
   dataSources: {
     users: UsersDataSource
     trips: TripsDataSource
-    items: null
+    items: ItemsDataSource
     luggages: LuggagesDataSource
-    roles: null
+    roles: RolesDataSource
     userTrips: UserTripsDataSource
   }
   currentUser: User
@@ -49,6 +51,8 @@ export async function createContext(req: Request, res: Response) {
       trips: new TripsDataSource(),
       userTrips: new UserTripsDataSource(),
       luggages: new LuggagesDataSource(),
+      items: new ItemsDataSource(),
+      roles: new RolesDataSource(),
     },
     currentUser: user,
     req,
