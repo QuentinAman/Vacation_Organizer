@@ -1,0 +1,19 @@
+type Trip {
+  id: ID!
+  name: String!
+  startDate: Date
+  endDate: Date
+  location: String
+}
+
+input CreateOrUpdateTripInput {
+  name: String
+  startDate: Date
+  endDate: Date
+  location: String
+}
+
+extend type User {
+  trips: [Trip!]
+  trip(id: ID!): Trip @auth(requires: USER)
+}

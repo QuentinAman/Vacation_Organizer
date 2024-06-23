@@ -1,0 +1,14 @@
+type Query {
+  allTrips: [Trip!] @auth(requires: ADMIN)
+  trips(ids: [ID!]!): [Trip!] @auth(requires: ADMIN)
+  trip(id: ID!): Trip @auth(requires: ADMIN)
+}
+
+type Mutation {
+  createTrip(args: CreateOrUpdateTripInput!): Trip @auth(requires: USER)
+  updateTrip(args: CreateOrUpdateTripInput!, tripId: ID!): Trip
+    @auth(requires: USER)
+  deleteTrip(tripId: ID!): Boolean! @auth(requires: USER)
+  addUserToTrip(userId: ID!, tripId: ID!): Boolean! @auth(requires: USER)
+  removeUserFromTrip(userId: ID!, tripId: ID!): Boolean! @auth(requires: USER)
+}

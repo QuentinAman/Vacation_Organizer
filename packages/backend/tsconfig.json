@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    // Enable latest features
+    "lib": [
+      "ESNext"
+    ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    // Some stricter flags
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@models": [
+        "./src/models/index.ts"
+      ],
+      "@types": [
+        "./src/types/index.ts"
+      ],
+      "@context": [
+        "./context.ts"
+      ],
+      "@dataSources": [
+        "./src/dataSources/index.ts"
+      ],
+      "@gql": [
+        "./src/gql/index.ts"
+      ],
+      "@services": [
+        "./src/services/index.ts"
+      ],
+      "@controllers": [
+        "./src/controllers/index.ts"
+      ],
+      "@enums": [
+        "./src/enums/index.ts"
+      ],
+      "@utils": [
+        "./src/utils/index.ts"
+      ],
+      "@helpers": [
+        "./src/helpers/index.ts"
+      ]
+    }
+  }
+}

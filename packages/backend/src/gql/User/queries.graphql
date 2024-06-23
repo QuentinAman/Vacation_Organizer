@@ -1,0 +1,18 @@
+type Query {
+  allUsers: [User!] @auth(requires: ADMIN)
+  users(ids: [Int!]): [User!] @auth(requires: USER)
+  user(id: Int): User @auth(requires: USER)
+  me: User @auth(requires: USER)
+}
+
+type Mutation {
+  login(args: LoginInput!): User
+  logout: Boolean @auth(requires: USER)
+
+  deleteUser(userId: ID!): Boolean @auth(requires: ADMIN)
+
+  createUser(args: CreateUserInput!): User
+  updateUser(args: UpdateUserInput, userId: ID!): User @auth(requires: USER)
+  updatePassword(args: UpdatePasswordInput!, userId: ID!): User
+    @auth(requires: USER)
+}

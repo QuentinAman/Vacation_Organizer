@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-console": "warn",
+    "sort-keys": "warn",
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}

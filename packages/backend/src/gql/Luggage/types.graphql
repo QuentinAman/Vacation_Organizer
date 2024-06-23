@@ -1,0 +1,13 @@
+type Luggage {
+  id: ID!
+  name: String!
+}
+
+input CreateOrUpdateLuggageInput {
+  name: String
+}
+
+extend type Trip {
+  luggages: [Luggage!]
+  luggage(id: ID!): Luggage @auth(requires: USER)
+}
